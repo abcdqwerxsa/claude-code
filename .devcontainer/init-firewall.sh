@@ -63,6 +63,10 @@ while read -r cidr; do
     ipset add allowed-domains "$cidr"
 done < <(echo "$gh_ranges" | jq -r '(.web + .api + .git)[]' | aggregate -q)
 
+# Add DNS servers to whitelist
+ipset add allowed-domains 8.8.8.8
+ipset add allowed-domains 1.1.1.1
+
 # Resolve and add other allowed domains
 for domain in \
     "registry.npmjs.org" \
